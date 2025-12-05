@@ -19,7 +19,7 @@ public class solution {
       int biggest_index = 0;
       long full_number = 0;
 
-      for (int digits = 11; digits >= 0; digits--){
+      for (int digits = 11; digits >= 0; digits--){  //change the digits value to 5 for the first part
       
         long biggest = 0;
 
