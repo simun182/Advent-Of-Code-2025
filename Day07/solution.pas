@@ -37,6 +37,31 @@ begin
   end;
 end;
 
+procedure CalculateTimelines (var puzzle: TSTringArray; x: Integer; var solution_two: Int64);
+var
+  y: Integer;
+  i: Integer;
+  timelines: array of Int64;
+begin
+  SetLength(timelines, Length(puzzle[0]));
+  for i := 0 to Length(puzzle[0]) do
+    timelines[i] := 0;
+  timelines[x] := 1;
+  for y := 1 to Length(puzzle) - 1 do
+  begin
+    for x := 0 to Length(puzzle[y]) do
+    begin
+      if puzzle[y][x] = '^' then
+      begin
+        timelines[x + 1] += timelines[x];
+        timelines[x - 1] += timelines[x];
+        timelines[x] := 0;
+      end;
+    end;
+  end;
+  for i := 0 to Length(timelines) do
+    solution_two += timelines[i];
+end;
 
 procedure printPuzzle (var puzzle: TStringArray);
 var
@@ -56,6 +81,7 @@ var
   puzzle: TStringArray;
   search_for_S: Integer;
   solution: Integer;
+  solution_two: Int64;
 
 begin
   repeat
@@ -70,9 +96,9 @@ begin
   until puzzle[0][search_for_S] = 'S';
 
   solution := 0;
-
+  CalculateTimelines(puzzle, search_for_S, solution_two);
   ReflectBeam(puzzle, search_for_S, 1, solution);
-
+  writeln(solution_two);
   writeln(solution);
 
 end.
